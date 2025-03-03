@@ -1,0 +1,9 @@
+<!-- users/templates/registration/login.html -->
+<h2>Login</h2>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Username">
+    <input type="password" name="password" placeholder="Password">
+    <button type="submit">Login</button>
+</form>
+<a href="{% url 'signup' %}">Don't have an account? Sign up here</a>
