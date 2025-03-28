@@ -3,15 +3,11 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser, Team, Player  # Import your CustomUser model
 
 class SignUpForm(UserCreationForm):
+    full_name = forms.CharField(max_length=100, required=True, help_text="Enter your full name.")
+
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'role', 'password1', 'password2']  # Ensure 'role' is here
-
-    role = forms.ChoiceField(
-        choices=CustomUser.ROLE_CHOICES, 
-        widget=forms.Select(attrs={'class': 'form-control'})  # Add dropdown styling
-    )
-
+        fields = ['full_name', 'username', 'email', 'role', 'password1', 'password2']
 
 class TeamForm(forms.ModelForm):
     class Meta:

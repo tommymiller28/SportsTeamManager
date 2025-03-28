@@ -3,6 +3,8 @@ from django.db import models
 from django.conf import settings
 
 class CustomUser(AbstractUser):
+    full_name = models.CharField(max_length=100, default="Unknown User")  # Add default value
+
     ROLE_CHOICES = [
         ('coach', 'Coach'),
         ('player', 'Player'),
@@ -10,16 +12,8 @@ class CustomUser(AbstractUser):
     ]
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='player')
 
-    # Fix reverse accessor clashes by setting related_name attributes
-    groups = models.ManyToManyField(
-        'auth.Group', related_name='customuser_groups', blank=True
-    )
-    user_permissions = models.ManyToManyField(
-        'auth.Permission', related_name='customuser_permissions', blank=True
-    )
-
     def __str__(self):
-        return f"{self.username} - {self.role}"
+        return f"{self.full_name} - {self.role}"
 
 
 ### Define Models for Teams & Players

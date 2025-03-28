@@ -6,6 +6,9 @@
     <form method="POST">
         {% csrf_token %}
 
+        <label for="id_full_name">Full Name:</label>
+        {{ form.full_name }}
+
         <label for="id_username">Username:</label>
         {{ form.username }}
 
