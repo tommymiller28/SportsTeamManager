@@ -1,3 +1,42 @@
-<h2>Welcome, {{ user.username }}!</h2>
-<p>Your role: {{ user.role }}</p>
-<a href="{% url 'logout' %}">Logout</a>
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+    <p>Welcome back, {{ user.username }}! Your role: <strong>{{ user_role }}</strong></p>
+    
+    {% if user_role == "coach" %}
+        <h2>Your Teams</h2>
+        <a href="{% url 'create_team' %}" class="btn btn-primary">+ Create Team</a>
+        
+        {% if teams %}
+            <ul>
+                {% for team in teams %}
+                    <li>
+                        <strong>{{ team.name }}</strong>
+                        <a href="#">View Roster</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>You have no teams yet.</p>
+        {% endif %}
+
+        <h2>Players on Your Teams</h2>
+        {% if players %}
+            <ul>
+                {% for player in players %}
+                    <li>{{ player.full_name }} ({{ player.position }}) - Team: {{ player.team.name }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No players have been added yet.</p>
+        {% endif %}
+    
+    {% elif user_role == "player" %}
+        <h2>Player Information</h2>
+        <p>Your assigned team and position will be shown here soon!</p>
+
+    {% else %}
+        <p>Dashboard is under construction for your role.</p>
+    {% endif %}
+{% endblock %}

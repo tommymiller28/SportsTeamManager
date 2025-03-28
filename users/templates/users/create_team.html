@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Create a Team</h1>
+
+    {% if user.role == "coach" %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Create Team</button>
+        </form>
+    {% else %}
+        <p>Only coaches can create teams.</p>
+    {% endif %}
+
+    <h2>Existing Teams</h2>
+    {% if teams %}
+        <ul>
+            {% for team in teams %}
+                <li>
+                    <strong>{{ team.name }}</strong> (Coach: {{ team.coach.username }})
+                    <a href="{% url 'view_roster' team.id %}">View Roster</a>
+
+                    {% if user.role == "player" %}
+                        <a href="{% url 'join_team' team.id %}">Join Team</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No teams available yet.</p>
+    {% endif %}
+
+    <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+{% endblock %}

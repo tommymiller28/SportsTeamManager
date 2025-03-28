@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ team.name }} Roster</h1>
+
+    {% if players %}
+        <ul>
+            {% for player in players %}
+                <li>{{ player.full_name }} - {{ player.position }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No players on this team yet.</p>
+    {% endif %}
+
+    {% if user.role == "coach" %}
+        <a href="{% url 'add_player' team.id %}">Add Player</a>
+    {% endif %}
+
+    <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+{% endblock %}
