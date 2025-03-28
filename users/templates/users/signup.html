@@ -1,5 +1,69 @@
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}  <!-- This ensures 'role' is included -->
-    <button type="submit">Sign Up</button>
-</form>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="signup-container">
+    <h2>Sign Up</h2>
+    <form method="POST">
+        {% csrf_token %}
+
+        <label for="id_username">Username:</label>
+        {{ form.username }}
+
+        <label for="id_email">Email:</label>
+        {{ form.email }}
+
+        <label for="id_role">Role:</label>
+        <select name="role" id="id_role">
+            <option value="coach">Coach</option>
+            <option value="player">Player</option>
+            <option value="parent">Parent</option>
+        </select>
+
+        <label for="id_password1">Password:</label>
+        {{ form.password1 }}
+
+        <label for="id_password2">Confirm Password:</label>
+        {{ form.password2 }}
+
+        <button type="submit">Sign Up</button>
+    </form>
+
+    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+</div>
+
+<style>
+    .signup-container {
+        width: 300px;
+        margin: auto;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+        font-weight: bold;
+        display: block;
+        margin-top: 10px;
+    }
+    input, select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    button {
+        margin-top: 15px;
+        width: 100%;
+        padding: 10px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #0056b3;
+    }
+</style>
+{% endblock %}
