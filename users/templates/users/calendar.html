@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+<style>
+    .calendar-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed; /* Force equal size cells */
+        margin-top: 20px;
+    }
+
+    .calendar-table th, .calendar-table td {
+        border: 2px solid #dee2e6;
+        padding: 20px; /* Bigger padding */
+        text-align: left;
+        vertical-align: top;
+        width: 14.28%; /* 100% / 7 */
+        height: 150px; /* Taller cells */
+        font-size: 16px; /* Larger text */
+    }
+
+    .calendar-table th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+        text-align: center;
+        font-size: 18px;
+        padding: 15px 0;
+    }
+
+    .game-day {
+        background-color: #d4edda;
+        border: 3px solid #28a745;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .today {
+        background-color: #fff3cd;
+        border: 3px solid #ffc107;
+    }
+
+    .calendar-table td:hover {
+        background-color: #f1f1f1;
+        cursor: pointer;
+    }
+
+    .calendar-table td div {
+        margin-top: 8px;
+        font-size: 14px;
+    }
+</style>
+
+{% block content %}
+
+<h2>{{ month_name }} {{ year }} - Team Calendar</h2>
+<a class="btn btn-success mb-3" href="{% url 'create_game' %}">+ Create New Game</a>
+<a class="btn btn-secondary mb-3" href="{% url 'dashboard' %}">Back to Dashboard</a>
+
+<div style="width: 100%; overflow-x: auto;">
+<table class="calendar-table">
+    <thead>
+        <tr>
+            <th>Sun</th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for week in calendar_data %}
+<tr>
+    {% for day, games in week %}
+        {% if day == today %}
+            <td class="today">
+        {% elif games %}
+            <td class="game-day">
+        {% else %}
+            <td class="no-game">
+        {% endif %}
+            <strong>{{ day.day }}</strong><br>
+            {% if games %}
+                {% for game in games %}
+                    <div>
+                        {{ game.team.name }}<br>
+                        vs {{ game.opponent }}<br>
+                        {{ game.date|time:"H:i" }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </td>
+    {% endfor %}
+</tr>
+{% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -19,4 +19,5 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("my_stats/", user_views.view_stats, name="view_stats"),
 ]

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Scheduled Games</h2>
+
+    {% if games %}
+        <ul class="list-group">
+            {% for game in games %}
+                <li class="list-group-item">
+                    <strong>{{ game.team.name }}</strong> vs <strong>{{ game.opponent }}</strong><br>
+                    <strong>Date:</strong> {{ game.date }}<br>
+                    <strong>Location:</strong> {{ game.location }}<br>
+                    <strong>Weather:</strong> {{ game.weather_summary|default:"TBD" }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No games scheduled.</p>
+    {% endif %}
+
+    <a class="btn btn-secondary mt-3" href="{% url 'dashboard' %}">Back to Dashboard</a>
+</div>
+{% endblock %}

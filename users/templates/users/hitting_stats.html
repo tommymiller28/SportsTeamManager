@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Hitting Stats Summary</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>At Bats</th>
+                <th>Hits</th>
+                <th>Runs</th>
+                <th>RBIs</th>
+                <th>Home Runs</th>
+                <th>Doubles</th>
+                <th>Triples</th>
+                <th>Stolen Bases</th>
+                <th>Walks</th>
+                <th>HBP</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in player_totals %}
+            <tr>
+                <td>{{ item.player.full_name }}</td>
+                <td>{{ item.total_at_bats }}</td>
+                <td>{{ item.total_hits }}</td>
+                <td>{{ item.total_runs }}</td>
+                <td>{{ item.total_rbis }}</td>
+                <td>{{ item.total_home_runs }}</td>
+                <td>{{ item.total_doubles }}</td>
+                <td>{{ item.total_triples }}</td>
+                <td>{{ item.total_stolen_bases }}</td>
+                <td>{{ item.total_walks }}</td>
+                <td>{{ item.total_hit_by_pitch }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-secondary" href="{% url 'dashboard' %}">Back to Dashboard</a>
+</div>
+{% endblock %}

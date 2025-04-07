@@ -1,42 +1,36 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-    <h1>Dashboard</h1>
-    <p>Welcome back, {{ user.username }}! Your role: <strong>{{ user_role }}</strong></p>
-    
-    {% if user_role == "coach" %}
-        <h2>Your Teams</h2>
-        <a href="{% url 'create_team' %}" class="btn btn-primary">+ Create Team</a>
-        
-        {% if teams %}
-            <ul>
-                {% for team in teams %}
-                    <li>
-                        <strong>{{ team.name }}</strong>
-                        <a href="#">View Roster</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>You have no teams yet.</p>
-        {% endif %}
+<div class="container mt-4">
+    <h1 class="mb-4">Dashboard</h1>
+    <p><strong>Welcome, {{ user.full_name }}!</strong></p>
+    <p>Your role: {{ user.role|capfirst }}</p>
 
-        <h2>Players on Your Teams</h2>
-        {% if players %}
-            <ul>
-                {% for player in players %}
-                    <li>{{ player.full_name }} ({{ player.position }}) - Team: {{ player.team.name }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No players have been added yet.</p>
-        {% endif %}
-    
-    {% elif user_role == "player" %}
-        <h2>Player Information</h2>
-        <p>Your assigned team and position will be shown here soon!</p>
+   {% if user.role == "coach" %}
+    <a class="btn btn-primary mb-3" href="{% url 'create_team' %}">Create New Team</a>
+    <a class="btn btn-secondary mb-3" href="{% url 'add_stat' %}">Add Player Stats</a>
+    <a class="btn btn-info mb-3" href="{% url 'view_stats' %}">View Hitting Stats</a>
+    <a class="btn btn-warning mb-3" href="{% url 'view_pitching_stats' %}">View Pitching Stats</a>
+{% endif %}
 
+{% if user.role == "player" %}
+    <a class="btn btn-info mb-3" href="{% url 'my_stats' %}">View My Stats</a>
+{% endif %}
+
+    <h3>Your Teams</h3>
+    {% if teams %}
+        <ul class="list-group mb-4">
+            {% for team in teams %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ team.name }}
+                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'view_roster' team.id %}">View Roster</a>
+                </li>
+            {% endfor %}
+        </ul>
     {% else %}
-        <p>Dashboard is under construction for your role.</p>
+        <p>No teams found.</p>
     {% endif %}
+
+    <a class="btn btn-secondary" href="{% url 'home' %}">Home</a>
+</div>
 {% endblock %}

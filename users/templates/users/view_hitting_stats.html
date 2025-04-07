@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Team Hitting Stats</h2>
+
+    {% if stats %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Player</th>
+                <th>Team</th>
+                <th>At Bats</th>
+                <th>Hits</th>
+                <th>Runs</th>
+                <th>RBIs</th>
+                <th>HR</th>
+                <th>2B</th>
+                <th>3B</th>
+                <th>SB</th>
+                <th>Walks</th>
+                <th>HBP</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stat in stats %}
+            <tr>
+                <td>{{ stat.game_date }}</td>
+                <td>{{ stat.player.full_name }}</td>
+                <td>{{ stat.team.name }}</td>
+                <td>{{ stat.at_bats }}</td>
+                <td>{{ stat.hits }}</td>
+                <td>{{ stat.runs }}</td>
+                <td>{{ stat.rbis }}</td>
+                <td>{{ stat.home_runs }}</td>
+                <td>{{ stat.doubles }}</td>
+                <td>{{ stat.triples }}</td>
+                <td>{{ stat.stolen_bases }}</td>
+                <td>{{ stat.walks }}</td>
+                <td>{{ stat.hit_by_pitch }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No hitting stats available yet.</p>
+    {% endif %}
+
+    <a class="btn btn-secondary" href="{% url 'dashboard' %}">Back to Dashboard</a>
+</div>
+{% endblock %}

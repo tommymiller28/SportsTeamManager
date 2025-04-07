@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Pitching Stats Summary</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Innings Pitched</th>
+                <th>Hits Allowed</th>
+                <th>Runs Allowed</th>
+                <th>Earned Runs</th>
+                <th>Walks</th>
+                <th>Strikeouts</th>
+                <th>Home Runs Allowed</th>
+                <th>Pitches Thrown</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in player_totals %}
+            <tr>
+                <td>{{ item.player.full_name }}</td>
+                <td>{{ item.innings_pitched }}</td>
+                <td>{{ item.hits_allowed }}</td>
+                <td>{{ item.runs_allowed }}</td>
+                <td>{{ item.earned_runs }}</td>
+                <td>{{ item.walks }}</td>
+                <td>{{ item.strikeouts }}</td>
+                <td>{{ item.home_runs_allowed }}</td>
+                <td>{{ item.pitches_thrown }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-secondary" href="{% url 'dashboard' %}">Back to Dashboard</a>
+</div>
+{% endblock %}

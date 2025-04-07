@@ -1,29 +1,28 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-    <h1>Create a Team</h1>
+<div class="container mt-4">
+    <h2>Create a Team</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Create Team</button>
+    </form>
 
-    {% if user.role == "coach" %}
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Create Team</button>
-        </form>
-    {% else %}
-        <p>Only coaches can create teams.</p>
-    {% endif %}
+    <hr>
 
-    <h2>Existing Teams</h2>
+    <h3>Existing Teams</h3>
     {% if teams %}
-        <ul>
+        <ul class="list-group">
             {% for team in teams %}
-                <li>
-                    <strong>{{ team.name }}</strong> (Coach: {{ team.coach.username }})
-                    <a href="{% url 'view_roster' team.id %}">View Roster</a>
-
-                    {% if user.role == "player" %}
-                        <a href="{% url 'join_team' team.id %}">Join Team</a>
-                    {% endif %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ team.name }} (Coach: {{ team.coach.full_name }})
+                    <div>
+                        <a class="btn btn-sm btn-outline-info" href="{% url 'view_roster' team.id %}">View Roster</a>
+                        {% if user.role == "player" %}
+                            <a class="btn btn-sm btn-outline-success" href="{% url 'join_team' team.id %}">Join Team</a>
+                        {% endif %}
+                    </div>
                 </li>
             {% endfor %}
         </ul>
@@ -31,5 +30,6 @@
         <p>No teams available yet.</p>
     {% endif %}
 
-    <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+    <a class="btn btn-secondary mt-3" href="{% url 'dashboard' %}">Back to Dashboard</a>
+</div>
 {% endblock %}

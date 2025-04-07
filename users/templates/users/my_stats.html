@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>My Stats - {{ player.full_name }}</h2>
+
+    {% if stats %}
+        <ul class="list-group">
+            {% for stat in stats %}
+                <li class="list-group-item">
+                    <strong>Date:</strong> {{ stat.date }}<br>
+                    <strong>Sport:</strong> {{ stat.sport }}<br>
+                    <strong>Team:</strong> {{ stat.team.name }}<br>
+                    <strong>Stats:</strong> {{ stat.stats }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No stats available.</p>
+    {% endif %}
+
+    <a class="btn btn-secondary mt-3" href="{% url 'dashboard' %}">Back to Dashboard</a>
+</div>
+{% endblock %}
