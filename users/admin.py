@@ -1,7 +1,7 @@
 # users/admin.py
 
 from django.contrib import admin
-from .models import CustomUser, Sport, Team, Player, PlayerStat, PitchingStat, Game
+from .models import CustomUser, Team, Player, Sport, PlayerStat, PitchingStat, Game
 
 
 # -----------------------------
@@ -9,18 +9,9 @@ from .models import CustomUser, Sport, Team, Player, PlayerStat, PitchingStat, G
 # -----------------------------
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'full_name', 'email', 'role', 'is_staff')
-    list_filter = ('role', 'is_staff')
-    search_fields = ('username', 'full_name', 'email')
-
-
-# -----------------------------
-# Sport Admin
-# -----------------------------
-@admin.register(Sport)
-class SportAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-    search_fields = ('name',)
+    list_display = ('username', 'email', 'role', 'is_staff', 'is_active')
+    list_filter = ('role', 'is_staff', 'is_active')
+    search_fields = ('username', 'email')
 
 
 # -----------------------------
@@ -29,22 +20,8 @@ class SportAdmin(admin.ModelAdmin):
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
     list_display = ('name', 'coach', 'sport')
+    search_fields = ('name',)
     list_filter = ('sport',)
-    search_fields = ('name', 'coach__full_name')
-    autocomplete_fields = ['coach']
-
-
-# -----------------------------
-# Player Stat Inline (Optional)
-# -----------------------------
-class PlayerStatInline(admin.TabularInline):
-    model = PlayerStat
-    extra = 1
-
-
-class PitchingStatInline(admin.TabularInline):
-    model = PitchingStat
-    extra = 1
 
 
 # -----------------------------
@@ -52,21 +29,48 @@ class PitchingStatInline(admin.TabularInline):
 # -----------------------------
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'team', 'position', 'user')
+    list_display = ('full_name', 'team', 'position')
+    exclude = ('user',)  # ✅ Remove user field from admin form
     list_filter = ('team',)
     search_fields = ('full_name', 'team__name')
-    inlines = [PlayerStatInline, PitchingStatInline]
+    # ✅ Removed PlayerStatInline and PitchingStatInline to clean the form
 
 
 # -----------------------------
+# Sport Admin
+# -----------------------------
+@admin.register(Sport)
+class SportAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+
+# # -----------------------------
 # Player Stat Admin
 # -----------------------------
 @admin.register(PlayerStat)
 class PlayerStatAdmin(admin.ModelAdmin):
-    list_display = ('player', 'team', 'game_date', 'hits', 'runs', 'home_runs', 'rbis')
+    list_display = ('player', 'team', 'game_date', 'hits', 'runs', 'home_runs', 'rbis', 'strikeouts')
     list_filter = ('team', 'game_date')
     search_fields = ('player__full_name',)
     date_hierarchy = 'game_date'
+
+    fields = (
+        'player',
+        'team',
+        'sport',
+        'game_date',
+        'at_bats',
+        'hits',
+        'runs',
+        'rbis',
+        'home_runs',
+        'doubles',
+        'triples',
+        'stolen_bases',
+        'walks',
+        'hit_by_pitch',
+        'strikeouts',
+    )
 
 
 # -----------------------------

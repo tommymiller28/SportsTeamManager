@@ -2,13 +2,37 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Schedule a Game</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Create Game</button>
-    </form>
+    <h2>Create New Game</h2>
 
-    <a class="btn btn-secondary mt-3" href="{% url 'dashboard' %}">Back to Dashboard</a>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="team" class="form-label">Team</label>
+            {{ form.team }}
+        </div>
+        <div class="mb-3">
+            <label for="opponent" class="form-label">Opponent</label>
+            {{ form.opponent }}
+        </div>
+        <div class="mb-3">
+            <label for="date" class="form-label">Date and Time</label>
+            {{ form.date }}
+        </div>
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            {{ form.location }}
+        </div>
+        <div class="mb-3">
+            <label for="team_score" class="form-label">Team Score</label>
+            {{ form.team_score }}
+        </div>
+        <div class="mb-3">
+            <label for="opponent_score" class="form-label">Opponent Score</label>
+            {{ form.opponent_score }}
+        </div>
+
+        <button type="submit" class="btn btn-success">Create Game</button>
+        <a href="{% url 'schedule' %}" class="btn btn-secondary">Cancel</a>
+    </form>
 </div>
 {% endblock %}

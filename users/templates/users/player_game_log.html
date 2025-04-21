@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ player.full_name }} - Hitting Game Log</h2>
+    <a class="btn btn-secondary mb-3" href="{% url 'stats_combined' %}">⬅️ Back to Stats</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>AB</th>
+                <th>H</th>
+                <th>R</th>
+                <th>RBI</th>
+                <th>HR</th>
+                <th>2B</th>
+                <th>3B</th>
+                <th>SB</th>
+                <th>BB</th>
+                <th>HBP</th>
+                <th>SO</th>
+                <th>Actions</th> <!-- Add actions header -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for stat in stats %}
+            <tr>
+                <td>{{ stat.game_date|date:"F j, Y" }}</td>
+                <td>{{ stat.at_bats }}</td>
+                <td>{{ stat.hits }}</td>
+                <td>{{ stat.runs }}</td>
+                <td>{{ stat.rbis }}</td>
+                <td>{{ stat.home_runs }}</td>
+                <td>{{ stat.doubles }}</td>
+                <td>{{ stat.triples }}</td>
+                <td>{{ stat.stolen_bases }}</td>
+                <td>{{ stat.walks }}</td>
+                <td>{{ stat.hit_by_pitch }}</td>
+                <td>{{ stat.strikeouts }}</td>
+                <td>
+                    <a href="{% url 'edit_player_stat' stat.id %}">Edit</a> |
+                    <a href="{% url 'delete_player_stat' stat.id %}">Delete</a>
+                </td> <!-- ✅ Action links -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Optional: Add Stat Button -->
+    <a class="btn btn-success mt-3" href="{% url 'add_stat' %}">+ Add New Stat</a>
+</div>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Team Stats</h2>
+
+<ul class="nav nav-tabs" id="statsTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="hitting-tab" data-bs-toggle="tab" data-bs-target="#hitting" type="button" role="tab">Hitting Stats</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pitching-tab" data-bs-toggle="tab" data-bs-target="#pitching" type="button" role="tab">Pitching Stats</button>
+    </li>
+</ul>
+
+<div class="tab-content mt-4">
+
+    <!-- Hitting Stats Tab -->
+    <div class="tab-pane fade show active" id="hitting" role="tabpanel">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>AB</th>
+                    <th>H</th>
+                    <th>R</th>
+                    <th>RBI</th>
+                    <th>HR</th>
+                    <th>2B</th>
+                    <th>3B</th>
+                    <th>SB</th>
+                    <th>BB</th>
+                    <th>HBP</th>
+                    <th>SO</th>
+                    <th>AVG</th>
+                    <th>OBP</th>
+                    <th>SLG</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player in player_hitting_totals %}
+                <tr>
+                    <td>
+                        <a href="{% url 'player_game_log' player.player.id %}">{{ player.player.full_name }}</a>
+                    </td>
+                    <td>{{ player.total_at_bats }}</td>
+                    <td>{{ player.total_hits }}</td>
+                    <td>{{ player.total_runs }}</td>
+                    <td>{{ player.total_rbis }}</td>
+                    <td>{{ player.total_home_runs }}</td>
+                    <td>{{ player.total_doubles }}</td>
+                    <td>{{ player.total_triples }}</td>
+                    <td>{{ player.total_stolen_bases }}</td>
+                    <td>{{ player.total_walks }}</td>
+                    <td>{{ player.total_hit_by_pitch }}</td>
+                    <td>{{ player.total_strikeouts }}</td>
+                    <td>{{ player.avg }}</td>
+                    <td>{{ player.obp }}</td>
+                    <td>{{ player.slugging }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pitching Stats Tab -->
+    <div class="tab-pane fade" id="pitching" role="tabpanel">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>IP</th>
+                    <th>H</th>
+                    <th>R</th>
+                    <th>ER</th>
+                    <th>BB</th>
+                    <th>K</th>
+                    <th>HR</th>
+                    <th>Pitches</th>
+                    <th>ERA</th>
+                    <th>WHIP</th>
+                    <th>K/BB</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player in player_pitching_totals %}
+                <tr>
+                    <td>
+                        <a href="{% url 'player_pitching_game_log' player.player.id %}">{{ player.player.full_name }}</a>
+                    </td>
+                    <td>{{ player.innings_pitched }}</td>
+                    <td>{{ player.hits_allowed }}</td>
+                    <td>{{ player.runs_allowed }}</td>
+                    <td>{{ player.earned_runs }}</td>
+                    <td>{{ player.walks }}</td>
+                    <td>{{ player.strikeouts }}</td>
+                    <td>{{ player.home_runs_allowed }}</td>
+                    <td>{{ player.pitches_thrown }}</td>
+                    <td>{{ player.era }}</td>
+                    <td>{{ player.whip }}</td>
+                    <td>{{ player.kbb }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

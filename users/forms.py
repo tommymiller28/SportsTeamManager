@@ -74,16 +74,20 @@ class PlayerStatForm(forms.ModelForm):
             'stolen_bases',
             'walks',
             'hit_by_pitch',
+            'strikeouts',
         ]
 
     def __init__(self, *args, **kwargs):
         coach = kwargs.pop('coach', None)
         super().__init__(*args, **kwargs)
+        
         if coach:
             self.fields['team'].queryset = Team.objects.filter(coach=coach)
             self.fields['player'].queryset = Player.objects.filter(team__coach=coach)
-            self.fields['sport'].queryset = Sport.objects.filter(name="Baseball")
-
+            self.fields['sport'].queryset = Sport.objects.filter(
+                id__in=Team.objects.filter(coach=coach).values_list('sport', flat=True)
+            )
+            
 
 # -------------------------------
 # Pitching Stats Entry Form
@@ -118,10 +122,11 @@ class PitchingStatForm(forms.ModelForm):
 # -------------------------------
 # Game Creation Form
 # -------------------------------
+
 class GameForm(forms.ModelForm):
     class Meta:
         model = Game
-        fields = ['team', 'opponent', 'date', 'location']
+        fields = ['team', 'opponent', 'date', 'location', 'team_score', 'opponent_score']
 
     def __init__(self, *args, **kwargs):
         coach = kwargs.pop('coach', None)

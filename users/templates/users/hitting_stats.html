@@ -1,44 +1,53 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Hitting Stats Summary</h2>
+<h2>Hitting Stats</h2>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Player</th>
-                <th>At Bats</th>
-                <th>Hits</th>
-                <th>Runs</th>
-                <th>RBIs</th>
-                <th>Home Runs</th>
-                <th>Doubles</th>
-                <th>Triples</th>
-                <th>Stolen Bases</th>
-                <th>Walks</th>
-                <th>HBP</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in player_totals %}
-            <tr>
-                <td>{{ item.player.full_name }}</td>
-                <td>{{ item.total_at_bats }}</td>
-                <td>{{ item.total_hits }}</td>
-                <td>{{ item.total_runs }}</td>
-                <td>{{ item.total_rbis }}</td>
-                <td>{{ item.total_home_runs }}</td>
-                <td>{{ item.total_doubles }}</td>
-                <td>{{ item.total_triples }}</td>
-                <td>{{ item.total_stolen_bases }}</td>
-                <td>{{ item.total_walks }}</td>
-                <td>{{ item.total_hit_by_pitch }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Player</th>
+            <th>AB</th>
+            <th>H</th>
+            <th>R</th>
+            <th>RBI</th>
+            <th>HR</th>
+            <th>2B</th>
+            <th>3B</th>
+            <th>SB</th>
+            <th>BB</th>
+            <th>HBP</th>
+            <th>AVG</th>
+            <th>OBP</th>
+            <th>SLG</th>
+            <th>OPS</th>
+            <th>SO</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for player in player_totals %}
+        <tr>
+            <td>{{ player.player.full_name }}</td>
+            <td>{{ player.total_at_bats }}</td>
+            <td>{{ player.total_hits }}</td>
+            <td>{{ player.total_runs }}</td>
+            <td>{{ player.total_rbis }}</td>
+            <td>{{ player.total_home_runs }}</td>
+            <td>{{ player.total_doubles }}</td>
+            <td>{{ player.total_triples }}</td>
+            <td>{{ player.total_stolen_bases }}</td>
+            <td>{{ player.total_walks }}</td>
+            <td>{{ player.total_hit_by_pitch }}</td>
+            <td>{{ player.avg|floatformat:"3" }}</td>
+            <td>{{ player.obp|floatformat:"3" }}</td>
+            <td>{{ player.slg|floatformat:"3" }}</td>
+            <td>{{ player.ops|floatformat:"3" }}</td>
+            <td>{{ player.total_strikeouts }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-    <a class="btn btn-secondary" href="{% url 'dashboard' %}">Back to Dashboard</a>
-</div>
+<a class="btn btn-secondary mt-3" href="{% url 'combined_stats' %}">⬅️ Back to Stats</a>
+
 {% endblock %}

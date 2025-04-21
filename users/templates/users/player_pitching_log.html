@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ player.full_name }} - Pitching Game Log</h2>
+    <a class="btn btn-secondary mb-3" href="{% url 'stats_combined' %}">⬅️ Back to Stats</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>IP</th>
+                <th>H</th>
+                <th>R</th>
+                <th>ER</th>
+                <th>BB</th>
+                <th>K</th>
+                <th>HR</th>
+                <th>Pitches</th>
+                <th>Actions</th> <!-- ✅ Actions column -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for stat in pitching_logs %}
+            <tr>
+                <td>{{ stat.game_date|date:"F j, Y" }}</td>
+                <td>{{ stat.innings_pitched }}</td>
+                <td>{{ stat.hits_allowed }}</td>
+                <td>{{ stat.runs_allowed }}</td>
+                <td>{{ stat.earned_runs }}</td>
+                <td>{{ stat.walks }}</td>
+                <td>{{ stat.strikeouts }}</td>
+                <td>{{ stat.home_runs_allowed }}</td>
+                <td>{{ stat.pitches_thrown }}</td>
+                <td>
+                    <a href="{% url 'edit_pitching_stat' stat.id %}">Edit</a> |
+                    <a href="{% url 'delete_pitching_stat' stat.id %}">Delete</a>
+                </td> <!-- ✅ Action links -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Optional: Add Stat Button -->
+    <a class="btn btn-success mt-3" href="{% url 'add_pitching_stat' %}">+ Add Pitching Stat</a>
+</div>
+{% endblock %}
